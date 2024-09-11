@@ -5,8 +5,8 @@ import toast from 'react-hot-toast';
 const categories = ['Phone', 'Computer', 'TV'];
 const subcategories: { [key: string]: string[] } = {
     Phone: ['iPhone', 'Samsung'],
-    Computer: [],
-    TV: []
+    Computer: ['Laptop', 'Desktop'],
+    TV: ['Samsung', 'LG'],
 };
 
 const AddProduct = () => {

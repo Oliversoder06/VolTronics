@@ -18,7 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                             product_data: {
                                 name: 'Sample Product',
                             },
-                            unit_amount: 2000, // $20 in cents
+                            unit_amount: 3000, // $20 in cents
                         },
                         quantity: 1,
                     },
