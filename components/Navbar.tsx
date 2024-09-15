@@ -1,14 +1,43 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Cookies from "js-cookie";
 import CheckoutButton from "@/components/CheckoutButton";
 
-const Navbar = () => {
+// Definiera typ för produkter i kundvagnen
+interface CartItem {
+  name: string;
+  price: number;
+  imageUrl: string;
+}
+
+const Navbar: React.FC = () => {
   const [openCart, setOpenCart] = useState(false);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]); // State för kundvagnsprodukter
 
   const toggleCart = () => {
     setOpenCart(!openCart);
+  };
+
+  // Hämta kundvagnsprodukter från cookie
+  useEffect(() => {
+    const cartCookie = Cookies.get("cart"); // Hämtar cookien "cart"
+    if (cartCookie) {
+      try {
+        const cartData = JSON.parse(cartCookie) as CartItem[];
+        setCartItems(cartData); // Sätter kundvagnsprodukter från cookien till state
+      } catch (error) {
+        console.error("Failed to parse cart cookie:", error);
+      }
+    }
+  }, []);
+
+  // Funktion för att ta bort en produkt från kundvagnen
+  const handleRemoveFromCart = (index: number) => {
+    const updatedCart = cartItems.filter((_, i) => i !== index); // Ta bort produkten med angivet index
+    setCartItems(updatedCart);
+    Cookies.set("cart", JSON.stringify(updatedCart)); // Uppdatera cookien med nya kundvagnen
   };
 
   return (
@@ -96,170 +125,33 @@ const Navbar = () => {
       {/* Cart dropdown */}
       {openCart && (
         <div className="fixed top-0 right-0 bg-primary_dark flex flex-col items-center w-[400px] h-full text-black z-50">
-          <h1 className="text-4xl">Your Cart </h1>
+          <h1 className="text-4xl">Your Cart</h1>
           <div className="flex flex-col gap-4 p-4 w-full bg-gray-600 overflow-auto">
-            <div className="flex justify-around w-full">
-              <Image
-                src="/images/product.jpg"
-                alt="Product"
-                width={150}
-                height={150}
-                className="bg-green-500 rounded-2xl"
-              />
-              <div className="flex flex-col gap-2 justify-between">
-                <h4 className="text-xl">Best Headphones</h4>
-                <p className="text-xl">$55</p>
-                <input
-                  type="button"
-                  value="Remove from cart"
-                  className="bg-red-700 rounded-md cursor-pointer"
-                />
-              </div>
-            </div>
-            <div className="flex justify-around w-full">
-              <Image
-                src="/images/product.jpg"
-                alt="Product"
-                width={150}
-                height={150}
-                className="bg-green-500 rounded-2xl"
-              />
-              <div className="flex flex-col gap-2 justify-between">
-                <h4 className="text-xl">Best Headphones</h4>
-                <p className="text-xl">$55</p>
-                <input
-                  type="button"
-                  value="Remove from cart"
-                  className="bg-red-700 rounded-md cursor-pointer"
-                />
-              </div>
-            </div>
-            <div className="flex justify-around w-full">
-              <Image
-                src="/images/product.jpg"
-                alt="Product"
-                width={150}
-                height={150}
-                className="bg-green-500 rounded-2xl"
-              />
-              <div className="flex flex-col gap-2 justify-between">
-                <h4 className="text-xl">Best Headphones</h4>
-                <p className="text-xl">$55</p>
-                <input
-                  type="button"
-                  value="Remove from cart"
-                  className="bg-red-700 rounded-md cursor-pointer"
-                />
-              </div>
-            </div>
-            <div className="flex justify-around w-full">
-              <Image
-                src="/images/product.jpg"
-                alt="Product"
-                width={150}
-                height={150}
-                className="bg-green-500 rounded-2xl"
-              />
-              <div className="flex flex-col gap-2 justify-between">
-                <h4 className="text-xl">Best Headphones</h4>
-                <p className="text-xl">$55</p>
-                <input
-                  type="button"
-                  value="Remove from cart"
-                  className="bg-red-700 rounded-md cursor-pointer"
-                />
-              </div>
-            </div>
-            <div className="flex justify-around w-full">
-              <Image
-                src="/images/product.jpg"
-                alt="Product"
-                width={150}
-                height={150}
-                className="bg-green-500 rounded-2xl"
-              />
-              <div className="flex flex-col gap-2 justify-between">
-                <h4 className="text-xl">Best Headphones</h4>
-                <p className="text-xl">$55</p>
-                <input
-                  type="button"
-                  value="Remove from cart"
-                  className="bg-red-700 rounded-md cursor-pointer"
-                />
-              </div>
-            </div>
-            <div className="flex justify-around w-full">
-              <Image
-                src="/images/product.jpg"
-                alt="Product"
-                width={150}
-                height={150}
-                className="bg-green-500 rounded-2xl"
-              />
-              <div className="flex flex-col gap-2 justify-between">
-                <h4 className="text-xl">Best Headphones</h4>
-                <p className="text-xl">$55</p>
-                <input
-                  type="button"
-                  value="Remove from cart"
-                  className="bg-red-700 rounded-md cursor-pointer"
-                />
-              </div>
-            </div>
-            <div className="flex justify-around w-full">
-              <Image
-                src="/images/product.jpg"
-                alt="Product"
-                width={150}
-                height={150}
-                className="bg-green-500 rounded-2xl"
-              />
-              <div className="flex flex-col gap-2 justify-between">
-                <h4 className="text-xl">Best Headphones</h4>
-                <p className="text-xl">$55</p>
-                <input
-                  type="button"
-                  value="Remove from cart"
-                  className="bg-red-700 rounded-md cursor-pointer"
-                />
-              </div>
-            </div>
-            <div className="flex justify-around w-full">
-              <Image
-                src="/images/product.jpg"
-                alt="Product"
-                width={150}
-                height={150}
-                className="bg-green-500 rounded-2xl"
-              />
-              <div className="flex flex-col gap-2 justify-between">
-                <h4 className="text-xl">Best Headphones</h4>
-                <p className="text-xl">$55</p>
-                <input
-                  type="button"
-                  value="Remove from cart"
-                  className="bg-red-700 rounded-md cursor-pointer"
-                />
-              </div>
-            </div>
-            <div className="flex justify-around w-full">
-              <Image
-                src="/images/product.jpg"
-                alt="Product"
-                width={150}
-                height={150}
-                className="bg-green-500 rounded-2xl"
-              />
-              <div className="flex flex-col gap-2 justify-between">
-                <h4 className="text-xl">Best Headphones</h4>
-                <p className="text-xl">$55</p>
-                <input
-                  type="button"
-                  value="Remove from cart"
-                  className="bg-red-700 rounded-md cursor-pointer"
-                />
-              </div>
-            </div>
+            {cartItems.length > 0 ? (
+              cartItems.map((item, index) => (
+                <div key={index} className="flex justify-around w-full">
+                  <Image
+                    src={item.imageUrl} // Länka till produktbild
+                    alt={item.name}
+                    width={150}
+                    height={150}
+                    className="bg-green-500 rounded-2xl"
+                  />
+                  <div className="flex flex-col gap-2 justify-between">
+                    <h4 className="text-xl">{item.name}</h4>
+                    <p className="text-xl">${item.price}</p>
+                    <input
+                      type="button"
+                      value="Remove from cart"
+                      className="bg-red-700 rounded-md cursor-pointer"
+                      onClick={() => handleRemoveFromCart(index)} // Hantera borttagning
+                    />
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p className="text-white">Your cart is empty.</p>
+            )}
           </div>
           <div className="bottom-2 bg-blue-500 w-[110px] h-9 content-center text-center rounded-lg m-3">
             <CheckoutButton />
